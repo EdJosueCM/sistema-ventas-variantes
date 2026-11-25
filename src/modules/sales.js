@@ -36,7 +36,7 @@ function register(app, { store, pricingRules }) {
       lines.push({ product, quantity });
     }
 
-    const subtotal = round(lines.reduce((sum, line) => sum + line.product.price, 0));
+    const subtotal = round(lines.reduce((sum, line) => sum + line.product.price * line.quantity, 0));
 
     // Las características opcionales (p. ej. descuentos) pueden ajustar el total de la venta.
     let total = subtotal;
