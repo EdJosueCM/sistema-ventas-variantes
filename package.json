@@ -1,6 +1,6 @@
 {
   "name": "sistema-ventas-variantes",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Sistema de ventas con variantes Básica y Premium a partir de una base de código común",
   "main": "src/server.js",
   "scripts": {
