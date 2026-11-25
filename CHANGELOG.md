@@ -2,7 +2,7 @@
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y [Versionado Semántico](https://semver.org/lang/es/).
 
-## [Sin publicar]
+## [1.0.0] - 2026-11-25
 
 ### Añadido
 - Módulos de inicio de sesión, productos y clientes.
