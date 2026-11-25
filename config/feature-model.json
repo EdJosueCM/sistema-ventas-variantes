@@ -1,0 +1,37 @@
+{
+  "product": "Sistema de Ventas",
+  "features": {
+    "login": {
+      "type": "mandatory",
+      "description": "Inicio de sesión"
+    },
+    "productos": {
+      "type": "mandatory",
+      "description": "Gestión de productos"
+    },
+    "clientes": {
+      "type": "mandatory",
+      "description": "Gestión de clientes"
+    },
+    "ventas": {
+      "type": "mandatory",
+      "description": "Registro de ventas",
+      "requires": ["productos", "clientes"]
+    },
+    "reportes": {
+      "type": "optional",
+      "description": "Reportes estadísticos de ventas",
+      "requires": ["ventas"]
+    },
+    "descuentos": {
+      "type": "optional",
+      "description": "Gestión de descuentos aplicables a las ventas",
+      "requires": ["ventas"]
+    },
+    "exportacion": {
+      "type": "optional",
+      "description": "Exportación de reportes a CSV",
+      "requires": ["reportes"]
+    }
+  }
+}
