@@ -1,0 +1,51 @@
+<mxfile host="drawio" version="24.7.17">
+  <diagram id="modelo-caracteristicas" name="Modelo de características">
+    <mxGraphModel dx="1200" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="root" value="Sistema de Ventas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1f4e79;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="40" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="login" value="Inicio de sesión" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1f4e79;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="130" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="productos" value="Productos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1f4e79;" vertex="1" parent="1">
+          <mxGeometry x="200" y="200" width="130" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="clientes" value="Clientes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1f4e79;" vertex="1" parent="1">
+          <mxGeometry x="360" y="200" width="130" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="ventas" value="Ventas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#1f4e79;" vertex="1" parent="1">
+          <mxGeometry x="520" y="200" width="130" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="reportes" value="Reportes estadísticos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="700" y="200" width="140" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="descuentos" value="Descuentos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="870" y="200" width="130" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="exportacion" value="Exportación CSV" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="700" y="340" width="140" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" style="endArrow=oval;endFill=1;endSize=10;html=1;" edge="1" parent="1" source="root" target="login"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" style="endArrow=oval;endFill=1;endSize=10;html=1;" edge="1" parent="1" source="root" target="productos"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" style="endArrow=oval;endFill=1;endSize=10;html=1;" edge="1" parent="1" source="root" target="clientes"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" style="endArrow=oval;endFill=1;endSize=10;html=1;" edge="1" parent="1" source="root" target="ventas"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" style="endArrow=oval;endFill=0;endSize=10;html=1;" edge="1" parent="1" source="root" target="reportes"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" style="endArrow=oval;endFill=0;endSize=10;html=1;" edge="1" parent="1" source="root" target="descuentos"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" style="endArrow=oval;endFill=0;endSize=10;html=1;" edge="1" parent="1" source="reportes" target="exportacion"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="r1" value="requiere" style="dashed=1;endArrow=open;html=1;strokeColor=#b85450;fontColor=#b85450;fontSize=10;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="descuentos" target="ventas">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="935" y="290" /><mxPoint x="585" y="290" /></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="r2" value="requiere" style="dashed=1;endArrow=open;html=1;strokeColor=#b85450;fontColor=#b85450;fontSize=10;" edge="1" parent="1" source="reportes" target="ventas"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="r3" value="requiere" style="dashed=1;endArrow=open;html=1;strokeColor=#b85450;fontColor=#b85450;fontSize=10;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ventas" target="productos">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="585" y="160" /><mxPoint x="265" y="160" /></Array></mxGeometry>
+        </mxCell>
+        <mxCell id="leyenda" value="&lt;b&gt;Leyenda&lt;/b&gt;&lt;br&gt;● Obligatoria (azul)&lt;br&gt;○ Opcional (amarillo)&lt;br&gt;- - → Restricción «requiere»&lt;br&gt;&lt;br&gt;&lt;b&gt;Básica:&lt;/b&gt; obligatorias&lt;br&gt;&lt;b&gt;Premium:&lt;/b&gt; obligatorias + opcionales" style="text;html=1;align=left;verticalAlign=top;strokeColor=#999999;fillColor=#f8f8f8;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="320" width="230" height="130" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
