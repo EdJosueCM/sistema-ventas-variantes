@@ -5,7 +5,9 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "jest"
+    "test": "jest",
+    "test:ci": "jest --ci --json --outputFile=reports/jest-results.json --reporters=default --reporters=jest-junit",
+    "build": "node scripts/build.js"
   },
   "engines": {
     "node": ">=20"
@@ -14,11 +16,16 @@
   "jest": {
     "testEnvironment": "node"
   },
+  "jest-junit": {
+    "outputDirectory": "reports",
+    "outputName": "junit.xml"
+  },
   "dependencies": {
     "express": "^5.3.0"
   },
   "devDependencies": {
     "jest": "^30.5.2",
+    "jest-junit": "^17.0.0",
     "supertest": "^7.3.2"
   }
 }

@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop, 'feature/**']
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+jobs:
+  build-test:
+    name: Construcción y pruebas
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener el código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar pruebas automatizadas
+        run: npm run test:ci
+
+      - name: Registrar resultado de las pruebas
+        if: always()
+        run: node scripts/test-summary.js
+
+      - name: Publicar reporte de pruebas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-pruebas
+          path: reports/
+
+      - name: Construir el paquete
+        run: npm run build
+
+      - name: Publicar artefacto descargable
+        uses: actions/upload-artifact@v4
+        with:
+          name: sistema-ventas-${{ github.sha }}
+          path: dist/
