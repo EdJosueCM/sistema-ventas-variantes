@@ -24,6 +24,9 @@ jobs:
       - name: Instalar dependencias
         run: npm ci
 
+      - name: Validar configuraciones de variantes
+        run: npm run validate:config
+
       - name: Ejecutar pruebas automatizadas
         run: npm run test:ci
 

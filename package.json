@@ -5,6 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
+    "start:basica": "node src/server.js --variant=basica",
+    "validate:config": "node scripts/validate-config.js",
     "test": "jest",
     "test:ci": "jest --ci --json --outputFile=reports/jest-results.json --reporters=default --reporters=jest-junit",
     "build": "node scripts/build.js"
