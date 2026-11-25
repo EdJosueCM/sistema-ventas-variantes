@@ -1,0 +1,13 @@
+{
+  "variant": "basica",
+  "displayName": "Ventas Básica",
+  "features": {
+    "login": true,
+    "productos": true,
+    "clientes": true,
+    "ventas": true,
+    "reportes": false,
+    "descuentos": false,
+    "exportacion": false
+  }
+}

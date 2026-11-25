@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sistema de Ventas</title>
+  <style>
+    :root { --bg: #f4f6fa; --card: #fff; --text: #1d2433; --muted: #5b6475; --accent: #1f4e79; --border: #d8dde6; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); }
+    header { background: var(--accent); color: #fff; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    header h1 { margin: 0; font-size: 1.3rem; }
+    main { max-width: 960px; margin: 24px auto; padding: 0 16px; display: grid; gap: 16px; }
+    section { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    h2 { margin-top: 0; font-size: 1.05rem; }
+    table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+    input, select, button { font: inherit; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; }
+    button { background: var(--accent); color: #fff; border: none; cursor: pointer; }
+    form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .badge { display: inline-block; background: #e3ecf7; color: var(--accent); border-radius: 999px; padding: 2px 10px; margin: 2px; font-size: .8rem; }
+    .muted { color: var(--muted); }
+    .hidden { display: none !important; }
+    .error { color: #b42318; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="title">Sistema de Ventas</h1>
+    <div id="features"></div>
+  </header>
+  <main>
+    <section id="login-section">
+      <h2>Inicio de sesión</h2>
+      <form id="login-form">
+        <input name="username" placeholder="Usuario" value="admin" required>
+        <input name="password" type="password" placeholder="Contraseña" value="admin123" required>
+        <button>Ingresar</button>
+        <span id="login-error" class="error"></span>
+      </form>
+    </section>
+
+    <div id="app" class="hidden" style="display:grid; gap:16px">
+      <section>
+        <h2>Productos</h2>
+        <table><thead><tr><th>ID</th><th>Producto</th><th>Precio</th><th>Stock</th></tr></thead><tbody id="products"></tbody></table>
+      </section>
+      <section>
+        <h2>Clientes</h2>
+        <table><thead><tr><th>ID</th><th>Nombre</th><th>Correo</th></tr></thead><tbody id="customers"></tbody></table>
+      </section>
+      <section>
+        <h2>Registrar venta</h2>
+        <form id="sale-form">
+          <select name="customerId" id="sale-customer"></select>
+          <select name="productId" id="sale-product"></select>
+          <input name="quantity" type="number" min="1" value="1" style="width:80px">
+          <span id="extra-sale-fields"></span>
+          <button>Vender</button>
+          <span id="sale-msg" class="muted"></span>
+        </form>
+      </section>
+      <section>
+        <h2>Ventas</h2>
+        <table><thead><tr><th>ID</th><th>Cliente</th><th>Subtotal</th><th>Total</th><th>Vendedor</th></tr></thead><tbody id="sales"></tbody></table>
+      </section>
+      <div id="optional-sections" style="display:grid; gap:16px"></div>
+    </div>
+  </main>
+
+  <script>
+    const state = { token: null, config: null };
+
+    async function api(path, options = {}) {
+      const res = await fetch(path, {
+        ...options,
+        headers: { 'Content-Type': 'application/json', ...(state.token && { Authorization: `Bearer ${state.token}` }) },
+      });
+      const body = res.status === 204 ? null : await res.json();
+      if (!res.ok) throw new Error(body.error || res.statusText);
+      return body;
+    }
+
+    const money = (n) => `$${n.toFixed(2)}`;
+    const rows = (items, cols) => items.map((i) => `<tr>${cols.map((c) => `<td>${c(i)}</td>`).join('')}</tr>`).join('');
+
+    async function refresh() {
+      const [products, customers, sales] = await Promise.all([api('/api/products'), api('/api/customers'), api('/api/sales')]);
+      document.getElementById('products').innerHTML = rows(products, [(p) => p.id, (p) => p.name, (p) => money(p.price), (p) => p.stock]);
+      document.getElementById('customers').innerHTML = rows(customers, [(c) => c.id, (c) => c.name, (c) => c.email]);
+      document.getElementById('sales').innerHTML = rows(sales, [(s) => s.id, (s) => s.customerId, (s) => money(s.subtotal), (s) => money(s.total), (s) => s.seller]);
+      document.getElementById('sale-customer').innerHTML = customers.map((c) => `<option value="${c.id}">${c.name}</option>`).join('');
+      document.getElementById('sale-product').innerHTML = products.map((p) => `<option value="${p.id}">${p.name}</option>`).join('');
+      document.dispatchEvent(new CustomEvent('data-refreshed'));
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      try {
+        state.token = (await api('/api/auth/login', { method: 'POST', body: JSON.stringify(data) })).token;
+        document.getElementById('login-section').classList.add('hidden');
+        document.getElementById('app').classList.remove('hidden');
+        await refresh();
+      } catch (err) {
+        document.getElementById('login-error').textContent = err.message;
+      }
+    });
+
+    document.getElementById('sale-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      const body = { ...data, customerId: Number(data.customerId), items: [{ productId: Number(data.productId), quantity: Number(data.quantity) }] };
+      try {
+        const sale = await api('/api/sales', { method: 'POST', body: JSON.stringify(body) });
+        document.getElementById('sale-msg').textContent = `Venta #${sale.id} registrada: ${money(sale.total)}`;
+        await refresh();
+      } catch (err) {
+        document.getElementById('sale-msg').textContent = err.message;
+      }
+    });
+
+    api('/api/config').then((config) => {
+      state.config = config;
+      document.title = config.displayName;
+      document.getElementById('title').textContent = config.displayName;
+      document.getElementById('features').innerHTML = config.features.map((f) => `<span class="badge">${f}</span>`).join('');
+    });
+  </script>
+</body>
+</html>
